@@ -1,1 +1,31 @@
-i
+
+1. 实时流协议RTSP
+    RTSP协议以客户服务器方式工作，它是一个多媒体播放控制协议，用来使用户在播放从因特网下载的实时数据时能够进行控制，如：暂停/继续、后退、前进等。因此 RTSP 又称为“因特网录像机遥控协议”。
+1.1.   RTSP协议简介
+    要实现 RTSP 的控制功能，不仅要有协议，而且要有专门的媒体播放器(media player)和媒体服务器(media server)。媒体服务器与媒体播放器的关系是服务器与客户的关系。 
+
+
+RTSP请求报文的方法包括：OPTIONS、DESCRIBE、SETUP、TEARDOWN、PLAY、PAUSE、GET_PARAMETER和SET_PARAMETER。RTSP请求报文的常用方法及作用如表1所示。
+         表1 RTSP请求报文的常用方法及作用
+方法                                     作用
+OPTIONS                                获得服务器提供的可用方法
+DESCRIBE                               得到会话描述信息
+SETUP                                  客户端提醒服务器建立会话，并确定传输模式
+TEARDOWN                               客户端发起关闭请求
+PLAY                                   客户端发送播放请求
+
+
+1.3.    RTSP交互过程
+C表示RTSP客户端，S表示RTSP服务端
+① C->S: OPTION request            //询问S有哪些方法可用
+S->C: OPTION response        //S回应信息中包括提供的所有可用方法
+② C->S: DESCRIBE request      //要求得到S提供的媒体初始化描述信息
+S->C: DESCRIBE response      //S回应媒体初始化描述信息，主要是sdp
+③ C->S: SETUP request         //设置会话属性，以及传输模式，提醒S建立会话
+S->C: SETUP response         //S建立会话，返回会话标识符及会话相关信息
+④ C->S: PLAY request          //C请求播放
+S->C: PLAY response          //S回应请求信息
+S->C: 发送流媒体数据
+⑤ C->S: TEARDOWN request     //C请求关闭会话
+S->C: TEARDOWN response     //S回应请求
+上述的过程是标准的RTSP流程，其中第3步和第4步是必需的。
